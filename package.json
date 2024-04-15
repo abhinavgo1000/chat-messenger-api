@@ -1,0 +1,19 @@
+{
+  "name": "chat-messenger-api",
+  "version": "1.0.0",
+  "description": "An api for a chat messenger utilising Expoess and Socket.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhinavgo1000/chat-messenger-api.git"
+  },
+  "author": "Abhinav Goel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhinavgo1000/chat-messenger-api/issues"
+  },
+  "homepage": "https://github.com/abhinavgo1000/chat-messenger-api#readme"
+}
