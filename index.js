@@ -5,9 +5,10 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 
 const config = require('./config');
-const routes = require('./routes/routes');
+const messageroutes = require('./routes/messageroutes');
+const userroutes = require('./routes/userroutes');
 
-const db = require('./utils/database');
+const sequelize = require('./utils/database');
 
 const app = express();
 const server = http.createServer(app);
@@ -18,7 +19,8 @@ app.use(bodyParser.json());
 const port = config.port;
 
 app.use(cors());
-app.use('/messages', routes);
+app.use('/messages', messageroutes);
+app.use('/users', userroutes);
 
 const io = new Server(server);
 
@@ -33,7 +35,11 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(port, () => {
-    console.log(`App is running and listening on port ${port}`);
+sequelize.sync().then(() => {
+    server.listen(port, () => {
+        console.log(`App is running and listening on port ${port}`);
+    });
+})
+.catch((err) => {
+    console.log(err);
 });
-

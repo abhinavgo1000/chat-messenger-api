@@ -1,33 +1,24 @@
 const Message = require('../models/message');
 
-exports.getMessages = (req, res) => {
-    Message.fetchAll()
-        .then(([rows]) => {
-            res.send({
-                message: rows[1].message
-            })
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+exports.receiveMessages = (req, res) => {
+    Message.findAll()
+    .then((messages) => {
+        res.send(messages);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 }
 
-exports.postMessages = (req, res) => {
-    Message.save()
-        .then(() => {
-            res.send({ message: 'data sent!' })
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-}
-
-exports.getIndex = (req, res) => {
-    Message.fetchAll()
-        .then(([rows]) => {
-            console.log(rows);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+exports.sendMessages = (req, res) => {
+    const message = req.body.message;
+    Message.create({
+        message: message
+    })
+    .then(() =>{
+        console.log('message sent');
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 }
