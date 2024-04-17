@@ -9,6 +9,22 @@ const User = sequelize.define('user', {
         allowNull: false,
         primaryKey: true
     },
+    profileName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    telephone: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    imgSrc: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    imgAlt: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     userName: {
         type: Sequelize.STRING,
         allowNull: false

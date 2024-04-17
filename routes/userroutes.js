@@ -7,4 +7,8 @@ router.get('', userController.fetchUser);
 
 router.post('', userController.createUser);
 
+router.patch('', userController.updateUser);
+
+router.delete('', userController.deleteUser);
+
 module.exports = router;

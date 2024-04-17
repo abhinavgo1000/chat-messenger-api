@@ -4,10 +4,18 @@ exports.createUser = (req, res) => {
     const userName = req.body.userName;
     const email = req.body.email;
     const password = req.body.password;
+    const profileName = req.body.profileName;
+    const telephone = req.body.telephone;
+    const imgSrc = req.body.imgSrc;
+    const imgAlt = req.body.imgAlt;
     User.create({
         userName: userName,
         email: email,
-        password: password
+        password: password,
+        profileName: profileName,
+        telephone: telephone,
+        imgSrc: imgSrc,
+        imgAlt: imgAlt
     })
     .then(() => {
         console.log('user created');
@@ -25,4 +33,12 @@ exports.fetchUser = (req, res) => {
     .catch((err) => {
         console.log(err);
     });
+}
+
+exports.updateUser = (req, res) => {
+
+}
+
+exports.deleteUser = (req, res) => {
+
 }
