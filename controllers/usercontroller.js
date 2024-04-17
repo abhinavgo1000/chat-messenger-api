@@ -26,9 +26,14 @@ exports.createUser = (req, res) => {
 }
 
 exports.fetchUser = (req, res) => {
-    User.findAll()
-    .then((users) => {
-        res.send(users);
+    const id = req.params.id;
+    User.findAll({
+        where: {
+            id: id
+        }
+    })
+    .then((user) => {
+        res.send(user[0]);
     })
     .catch((err) => {
         console.log(err);
@@ -36,7 +41,31 @@ exports.fetchUser = (req, res) => {
 }
 
 exports.updateUser = (req, res) => {
-
+    const id = req.params.id;
+    const userName = req.body.userName;
+    const email = req.body.email;
+    const password = req.body.password;
+    const profileName = req.body.profileName;
+    const telephone = req.body.telephone;
+    const imgSrc = req.body.imgSrc;
+    const imgAlt = req.body.imgAlt;
+    User.findById(id)
+    .then((result) => {
+        result.userName = userName;
+        result.email = email;
+        result.password = password;
+        result.profileName = profileName;
+        result.telephone = telephone;
+        result.imgSrc = imgSrc;
+        result.imgAlt = imgAlt;
+        return result.save();
+    })
+    .then((res) => {
+        console.log('user updated');
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 }
 
 exports.patchUser = (req, res) => {
@@ -44,5 +73,12 @@ exports.patchUser = (req, res) => {
 }
 
 exports.deleteUser = (req, res) => {
-
+    const id = req.params.id;
+    User.findById(id)
+    .then((user) => {
+        user.destroy();
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 }
