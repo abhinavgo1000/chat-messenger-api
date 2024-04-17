@@ -39,6 +39,10 @@ exports.updateUser = (req, res) => {
 
 }
 
+exports.patchUser = (req, res) => {
+    
+}
+
 exports.deleteUser = (req, res) => {
 
 }

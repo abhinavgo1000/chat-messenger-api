@@ -7,7 +7,9 @@ router.get('', userController.fetchUser);
 
 router.post('', userController.createUser);
 
-router.patch('', userController.updateUser);
+router.put('', userController.updateUser);
+
+router.patch('', userController.patchUser);
 
 router.delete('', userController.deleteUser);
 
