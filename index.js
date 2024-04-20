@@ -9,6 +9,7 @@ const User = require('./models/user');
 const config = require('./config');
 const messageroutes = require('./routes/messageroutes');
 const userroutes = require('./routes/userroutes');
+const profileroutes = require('./routes/profileroutes');
 
 const app = express();
 const server = http.createServer(app);
@@ -32,6 +33,7 @@ const port = config.port;
 app.use(cors());
 app.use('/messages', messageroutes);
 app.use('/users', userroutes);
+app.use('/profiles', profileroutes);
 
 const io = new Server(server);
 

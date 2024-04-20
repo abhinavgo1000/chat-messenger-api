@@ -57,10 +57,6 @@ exports.updateUser = (req, res) => {
     });
 };
 
-exports.patchUser = (req, res) => {
-    
-};
-
 exports.deleteUser = (req, res) => {
     const id = req.body.id;
     User.deleteById(id)
