@@ -1,18 +1,25 @@
-const Sequelize = require('sequelize');
+const getDb = require('../utils/database').getDb;
 
-const sequelize = require('../utils/database');
-
-const Message = sequelize.define('message', {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-    },
-    message: {
-        type: Sequelize.STRING,
-        allowNull: false
+class Message {
+    constructor(message) {
+        this.message = message;
     }
-});
+
+    save() {
+        const db = getDb();
+        return db.collection('messages').insertOne(this)
+        .then((result) => {
+            console.log(result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetchAll() {
+        const db = getDb();
+        return db.collection('messages').find().toArray();
+    }
+}
 
 module.exports = Message;

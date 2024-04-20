@@ -1,22 +1,16 @@
+const mongodb = require('mongodb');
 const User = require('../models/user');
 
+const objectId = mongodb.ObjectId;
+
 exports.createUser = (req, res) => {
+    const profileName = req.body.profileName;
     const userName = req.body.userName;
+    const telephone = req.body.telephone;
     const email = req.body.email;
     const password = req.body.password;
-    const profileName = req.body.profileName;
-    const telephone = req.body.telephone;
-    const imgSrc = req.body.imgSrc;
-    const imgAlt = req.body.imgAlt;
-    User.create({
-        userName: userName,
-        email: email,
-        password: password,
-        profileName: profileName,
-        telephone: telephone,
-        imgSrc: imgSrc,
-        imgAlt: imgAlt
-    })
+    const user = new User(profileName, userName, telephone, email, password);
+    user.save()
     .then(() => {
         console.log('user created');
     })
@@ -27,58 +21,53 @@ exports.createUser = (req, res) => {
 
 exports.fetchUser = (req, res) => {
     const id = req.params.id;
-    User.findAll({
-        where: {
-            id: id
-        }
-    })
+    User.findById(id)
     .then((user) => {
-        res.send(user[0]);
+        res.send(user);
     })
     .catch((err) => {
         console.log(err);
     });
-}
+};
+
+exports.fetchAllUsers = (req, res) => {
+    User.fetchAll()
+    .then((users) => {
+        res.send(users);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+};
 
 exports.updateUser = (req, res) => {
-    const id = req.params.id;
+    const id = req.body.id;
+    const profileName = req.body.profileName;
     const userName = req.body.userName;
+    const telephone = req.body.telephone;
     const email = req.body.email;
     const password = req.body.password;
-    const profileName = req.body.profileName;
-    const telephone = req.body.telephone;
-    const imgSrc = req.body.imgSrc;
-    const imgAlt = req.body.imgAlt;
-    User.findById(id)
-    .then((result) => {
-        result.userName = userName;
-        result.email = email;
-        result.password = password;
-        result.profileName = profileName;
-        result.telephone = telephone;
-        result.imgSrc = imgSrc;
-        result.imgAlt = imgAlt;
-        return result.save();
-    })
+    const user = new User(profileName, userName, telephone, email, password, new objectId(id));
+    user.save()
     .then((res) => {
         console.log('user updated');
     })
     .catch((err) => {
         console.log(err);
     });
-}
+};
 
 exports.patchUser = (req, res) => {
     
-}
+};
 
 exports.deleteUser = (req, res) => {
-    const id = req.params.id;
-    User.findById(id)
-    .then((user) => {
-        user.destroy();
+    const id = req.body.id;
+    User.deleteById(id)
+    .then(() => {
+        console.log('user deleted');
     })
     .catch((err) => {
         console.log(err);
     });
-}
+};
