@@ -1,25 +1,13 @@
-const getDb = require('../utils/database').getDb;
+const mongoose = require('mongoose');
 
-class Message {
-    constructor(message) {
-        this.message = message;
+const Schema = mongoose.Schema;
+
+const messageSchema = new Schema({
+    message: String,
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
+});
 
-    save() {
-        const db = getDb();
-        return db.collection('messages').insertOne(this)
-        .then((result) => {
-            console.log(result);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-    }
-
-    static fetchAll() {
-        const db = getDb();
-        return db.collection('messages').find().toArray();
-    }
-}
-
-module.exports = Message;
+module.exports = mongoose.model('Message', messageSchema);

@@ -1,7 +1,4 @@
-const mongodb = require('mongodb');
 const User = require('../models/user');
-
-const objectId = mongodb.ObjectId;
 
 exports.createUser = (req, res) => {
     const profileName = req.body.profileName;
@@ -9,7 +6,13 @@ exports.createUser = (req, res) => {
     const telephone = req.body.telephone;
     const email = req.body.email;
     const password = req.body.password;
-    const user = new User(profileName, userName, telephone, email, password);
+    const user = new User({
+        profileName: profileName,
+        userName: userName,
+        telephone: telephone,
+        email: email,
+        password: password
+    });
     user.save()
     .then(() => {
         console.log('user created');
@@ -31,7 +34,7 @@ exports.fetchUser = (req, res) => {
 };
 
 exports.fetchAllUsers = (req, res) => {
-    User.fetchAll()
+    User.find()
     .then((users) => {
         res.send(users);
     })
@@ -40,16 +43,36 @@ exports.fetchAllUsers = (req, res) => {
     });
 };
 
+exports.getUpdateUser = (req, res) => {
+    const editMode = req.query.edit;
+    const userId = req.params.userId;
+    User.findById(userId)
+    .then((user) => {
+        if (editMode) {
+            res.send(user);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+};
+
 exports.updateUser = (req, res) => {
-    const id = req.body.id;
+    const userId = req.body.userId;
     const profileName = req.body.profileName;
     const userName = req.body.userName;
     const telephone = req.body.telephone;
     const email = req.body.email;
     const password = req.body.password;
-    const user = new User(profileName, userName, telephone, email, password, new objectId(id));
-    user.save()
-    .then((res) => {
+    User.findById(userId).then((user) => {
+        user.profileName = profileName;
+        user.userName = userName;
+        user.telephone = telephone;
+        user.email = email;
+        user.password = password;
+        return user.save();
+    })   
+    .then(() => {
         console.log('user updated');
     })
     .catch((err) => {
@@ -58,8 +81,8 @@ exports.updateUser = (req, res) => {
 };
 
 exports.deleteUser = (req, res) => {
-    const id = req.body.id;
-    User.deleteById(id)
+    const userId = req.body.userId;
+    User.findByIdAndDelete(userId)
     .then(() => {
         console.log('user deleted');
     })

@@ -9,6 +9,8 @@ router.get('', profileController.fetchAllProfiles);
 
 router.post('', profileController.createProfile);
 
+router.get('/:profileId', profileController.getUpdateProfile);
+
 router.patch('/:profileId', profileController.updateProfile);
 
 router.delete('/:profileId', profileController.deleteProfile);

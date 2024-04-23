@@ -1,7 +1,7 @@
 const Message = require('../models/message');
 
 exports.receiveMessages = (req, res) => {
-    Message.fetchAll()
+    Message.find()
     .then((messages) => {
         res.send(messages);
     })
@@ -12,7 +12,10 @@ exports.receiveMessages = (req, res) => {
 
 exports.sendMessages = (req, res) => {
     const message = req.body.message;
-    const msg = new Message(message, null, req.user._id);
+    const msg = new Message({
+        message: message,
+        userId: req.user._id
+    });
     msg.save()
     .then(() => {
         console.log('message sent');

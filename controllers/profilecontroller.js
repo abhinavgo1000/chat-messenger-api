@@ -1,7 +1,6 @@
 const mongodb = require('mongodb');
 const Profile = require('../models/profile');
-
-const objectId = mongodb.ObjectId;
+const profile = require('../models/profile');
 
 exports.createProfile = (req, res) => {
     const dob = req.body.dob;
@@ -9,7 +8,14 @@ exports.createProfile = (req, res) => {
     const address = req.body.address;
     const imgSrc = req.body.imgSrc;
     const imgAlt = req.body.imgAlt;
-    const profile = new Profile(dob, sex, address, imgSrc, imgAlt);
+    const profile = new Profile({
+        dob: dob,
+        sex: sex,
+        address: address,
+        imgSrc: imgSrc,
+        imgAlt: imgAlt,
+        userId: req.user._id
+    });
     profile.save()
     .then(() => {
         console.log('profile created');
@@ -31,7 +37,7 @@ exports.fetchProfile = (req, res) => {
 };
 
 exports.fetchAllProfiles = (req, res) => {
-    Profile.fetchAll()
+    Profile.find()
     .then((profiles) => {
         res.send(profiles);
     })
@@ -40,16 +46,36 @@ exports.fetchAllProfiles = (req, res) => {
     });
 };
 
+exports.getUpdateProfile = (req, res) => {
+    const editMode = req.query.edit;
+    const profileId = req.params.profileId;
+    Profile.findById(profileId)
+    .then((profile) => {
+        if (editMode) {
+            res.send(profile);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+};
+
 exports.updateProfile = (req, res) => {
-    const id = req.body.id;
+    const profileId = req.body.profileId;
     const dob = req.body.dob;
     const sex = req.body.sex;
     const address = req.body.address;
     const imgSrc = req.body.imgSrc;
     const imgAlt = req.body.imgAlt;
-    const profile = new Profile(dob, sex, address, imgSrc, imgAlt, new objectId(id));
-    profile.save()
-    .then((res) => {
+    Profile.findById(profileId).then((profile) => {
+        profile.dob = dob;
+        profile.sex = sex;
+        profile.address = address;
+        profile.imgSrc = imgSrc;
+        profile.imgAlt = imgAlt;
+        return profile.save();
+    })
+    .then(() => {
         console.log('profile updated');
     })
     .catch((err) => {
@@ -58,8 +84,8 @@ exports.updateProfile = (req, res) => {
 };
 
 exports.deleteProfile = (req, res) => {
-    const id = req.body.id;
-    Profile.deleteById(id)
+    const profileId = req.body.profileId;
+    Profile.findByIdAndDelete(profileId)
     .then(() => {
         console.log('profile deleted');
     })
