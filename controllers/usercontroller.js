@@ -20,7 +20,7 @@ exports.createUser = (req, res) => {
     .catch((err) => {
         console.log(err);
     });
-}
+};
 
 exports.fetchUser = (req, res) => {
     const id = req.params.id;

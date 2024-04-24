@@ -1,6 +1,4 @@
-const mongodb = require('mongodb');
 const Profile = require('../models/profile');
-const profile = require('../models/profile');
 
 exports.createProfile = (req, res) => {
     const dob = req.body.dob;
@@ -23,7 +21,7 @@ exports.createProfile = (req, res) => {
     .catch((err) => {
         console.log(err);
     });
-}
+};
 
 exports.fetchProfile = (req, res) => {
     const id = req.params.id;

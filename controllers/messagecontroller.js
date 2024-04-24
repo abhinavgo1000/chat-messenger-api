@@ -8,7 +8,7 @@ exports.receiveMessages = (req, res) => {
     .catch((err) => {
         console.log(err);
     });
-}
+};
 
 exports.sendMessages = (req, res) => {
     const message = req.body.message;
@@ -23,4 +23,4 @@ exports.sendMessages = (req, res) => {
     .catch((err) => {
         console.log(err);
     });
-}
+};
