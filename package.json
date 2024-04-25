@@ -1,7 +1,7 @@
 {
   "name": "chat-messenger-api",
   "version": "1.0.0",
-  "description": "An api for a chat messenger utilising Expoess and Socket.io",
+  "description": "An api for a chat messenger utilising Express and Socket.io",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,12 +18,16 @@
   },
   "homepage": "https://github.com/abhinavgo1000/chat-messenger-api#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "connect-mongodb-session": "^5.0.0",
     "cors": "^2.8.5",
+    "csurf": "^1.11.0",
     "express": "^4.19.2",
+    "express-session": "^1.18.0",
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.2",
-    "mysql2": "^3.9.6",
+    "mysql2": "^3.9.7",
     "nodemailer": "^6.9.13",
     "sequelize": "^6.37.3",
     "socket.io": "^4.7.5"

@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 const User = require('../models/user');
 
 exports.createUser = (req, res) => {
@@ -6,14 +8,25 @@ exports.createUser = (req, res) => {
     const telephone = req.body.telephone;
     const email = req.body.email;
     const password = req.body.password;
-    const user = new User({
-        profileName: profileName,
-        userName: userName,
-        telephone: telephone,
-        email: email,
-        password: password
-    });
-    user.save()
+    User.findOne({email: email})
+    return bcrypt
+    .hash(password, 12)
+    .then((hashedPassword) => {
+        const user = new User({
+            profileName: profileName,
+            userName: userName,
+            telephone: telephone,
+            email: email,
+            password: hashedPassword,
+            profile: {
+                items: []
+            },
+            message: {
+                items: []
+            }
+        }); 
+        return user.save();
+    })
     .then(() => {
         console.log('user created');
     })
