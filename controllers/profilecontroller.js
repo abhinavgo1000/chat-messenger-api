@@ -19,7 +19,9 @@ exports.createProfile = (req, res) => {
         console.log('profile created');
     })
     .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
 
@@ -30,7 +32,9 @@ exports.fetchProfile = (req, res) => {
         res.send(profile);
     })
     .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
 
@@ -40,7 +44,9 @@ exports.fetchAllProfiles = (req, res) => {
         res.send(profiles);
     })
     .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
 
@@ -54,7 +60,9 @@ exports.getUpdateProfile = (req, res) => {
         }
     })
     .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
 

@@ -63,6 +63,10 @@ io.on('connection', (socket) => {
     });
 });
 
+app.use((error, req, res, next) => {
+    res.status(error.httpStatusCode).send({message: 'Internal Server Error'});
+});
+
 mongoose.connect(
     MONGO_URL
 )

@@ -115,7 +115,9 @@ exports.postReset = (req, res) => {
             });
         })
         .catch((err) => {
-            console.log(err);
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
         });
     });
 };
@@ -141,6 +143,8 @@ exports.postNewPassword = (req, res) => {
         return resetUser.save();
     })
     .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };

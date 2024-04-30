@@ -31,7 +31,9 @@ exports.createUser = (req, res) => {
         console.log('user created');
     })
     .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
 
@@ -42,7 +44,9 @@ exports.fetchUser = (req, res) => {
         res.send(user);
     })
     .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
 
@@ -52,7 +56,9 @@ exports.fetchAllUsers = (req, res) => {
         res.send(users);
     })
     .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
 
@@ -66,7 +72,9 @@ exports.getUpdateUser = (req, res) => {
         }
     })
     .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
 
@@ -89,7 +97,9 @@ exports.updateUser = (req, res) => {
         console.log('user updated');
     })
     .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
 
@@ -100,6 +110,8 @@ exports.deleteUser = (req, res) => {
         console.log('user deleted');
     })
     .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
     });
 };
