@@ -4,7 +4,6 @@ var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-const csrf = require('csurf');
 const { Server } = require('socket.io');
 const cors = require('cors');
 
@@ -22,7 +21,6 @@ const store = new MongoDBStore({
     uri: MONGO_URL,
     collection: 'sessions'
 });
-const csrfProtection = csrf();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -34,17 +32,18 @@ app.use(
         store: store
     })
 );
-app.use(csrfProtection);
 
 const port = config.port;
 
+app.use(cors());
+
 app.use((req, res, next) => {
-    res.locals.isAuthenticated = req.session.isLoggedIn;
-    res.locals.csrfToken = req.csrfToken();
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 });
 
-app.use(cors());
 app.use('/auth', authroutes);
 app.use('/messages', messageroutes);
 app.use('/users', userroutes);
@@ -61,10 +60,6 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
-});
-
-app.use((error, req, res, next) => {
-    res.status(error.httpStatusCode).send({message: 'Internal Server Error'});
 });
 
 mongoose.connect(

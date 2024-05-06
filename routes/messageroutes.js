@@ -4,8 +4,8 @@ const router = express.Router();
 const messageController = require('../controllers/messagecontroller');
 const isAuth = require('../middleware/is-auth');
 
-router.get('', messageController.receiveMessages);
+router.get('/receive', messageController.receiveMessages);
 
-router.post('', isAuth, messageController.sendMessages);
+router.post('/send', messageController.sendMessages);
 
 module.exports = router;
