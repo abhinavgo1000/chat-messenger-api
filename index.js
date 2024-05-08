@@ -2,8 +2,6 @@ const express = require('express');
 const http = require('http');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
 const { Server } = require('socket.io');
 const cors = require('cors');
 
@@ -17,21 +15,9 @@ const MONGO_URL = 'mongodb+srv://abhinavgl:pVAzCVdC9CBoCksv@cluster0.atsxdhb.mon
 
 const app = express();
 const server = http.createServer(app);
-const store = new MongoDBStore({
-    uri: MONGO_URL,
-    collection: 'sessions'
-});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(
-    session({
-        secret: 'my secret', 
-        resave: false, 
-        saveUninitialized: false,
-        store: store
-    })
-);
 
 const port = config.port;
 
