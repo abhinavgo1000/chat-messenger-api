@@ -1,7 +1,6 @@
 const { validationResult } = require('express-validator');
 
 const Message = require('../models/message');
-const message = require('../models/message');
 
 exports.receiveMessages = (req, res, next) => {
     Message.find()
