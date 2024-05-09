@@ -7,6 +7,7 @@ const messageSchema = new Schema({
         type: String,
         required: true
     },
+    imgUrl: String,
     creator: {
         type: Object,
         required: String

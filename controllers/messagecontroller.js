@@ -41,8 +41,10 @@ exports.sendMessages = (req, res, next) => {
         throw error;
     }
     const message = req.body.message;
+    const imageUrl = req.file.path;
     const msg = new Message({
         message: message,
+        imgUrl: imageUrl,
         creator: { name: 'Abhinav' }
     });
     msg.save()
